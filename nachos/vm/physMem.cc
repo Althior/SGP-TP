@@ -179,6 +179,7 @@ int PhysicalMemManager::EvictPage() {
 	return (0);
 #endif
 #ifdef ETUDIANTS_TP
+	// clock algo.
 	int i = 0;
 	do {
 			i_clock = (i_clock + 1) % g_cfg->NumPhysPages;
@@ -204,7 +205,6 @@ int PhysicalMemManager::EvictPage() {
 	tpr[i_clock].owner->translationTable->clearBitValid(tpr[i_clock].virtualPage);
 	
 	int res = i_clock;
-//	i_clock = (i_clock + 1) % g_cfg->NumPhysPages;
 
 	// copy page in swap.
 	TranslationTable* tt = tpr[res].owner->translationTable;

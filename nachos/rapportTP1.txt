@@ -1,0 +1,13 @@
+intro
+
+l'objectif de ce TP est de réaliser deux éléments pour la gestion de la mémoire virtuelle:
+- la routine de traitement des défauts de page
+- la gestion des remplacement de page
+
+Travail réalisé
+
+Problèmes rencontrés
+
+Conclusion
+
+Au terme des séances de TP, 

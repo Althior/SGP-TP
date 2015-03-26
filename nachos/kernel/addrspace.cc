@@ -388,8 +388,20 @@ int AddrSpace::Alloc(int numPages)
 // ----------------------------------------------------------------------
 int AddrSpace::Mmap(OpenFile *f, int size)
 {
+#ifndef ETUDIANTS_TP
   printf("**** Warning: method AddrSpace::Mmap is not implemented yet\n");
   exit(-1);
+#endif
+#ifdef ETUDIANTS_TP
+// Alloc pages
+int vp = Alloc (size/g_cfg->PageSize); // vp num of beginning
+if ( vp == -1) {
+	printf("Error Mmap: Alloc");
+} else {
+	
+}
+return 0;
+#endif
 }
 
 //----------------------------------------------------------------------
@@ -400,9 +412,14 @@ int AddrSpace::Mmap(OpenFile *f, int size)
  */
 //----------------------------------------------------------------------
 OpenFile *AddrSpace::findMappedFile(int32_t addr) {
+#ifndef ETUDIANTS_TP
   printf("**** Warning: method AddrSpace::findMappedFile is not implemented yet\n");
   exit(-1);
+#endif
+#ifdef ETUDIANTS_TP
 
+return 0;
+#endif
 }
 
 //----------------------------------------------------------------------

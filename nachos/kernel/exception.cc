@@ -817,45 +817,75 @@ void ExceptionHandler(ExceptionType exceptiontype, int vaddr)
       DEBUG('e', (char*)"COND: CondWait call\n");
       int32_t sid = g_machine->ReadIntRegister(4);
       Condition * c = (Condition *) g_object_ids->SearchObject(sid);
-      if (c && c->typeId == CONDITION_TYPE_ID) {
-	c->Wait();
-	g_syscall_error->SetMsg((char*)"",NoError);
-	g_machine->WriteIntRegister(2,0);
-      } else {
-	g_syscall_error->SetMsg(msg, InvalidConditionId);
-	g_machine->WriteIntRegister(2,-1);
-      }
-      
-
+      if (c && c->typeId == CONDITION_TYPE_ID) 
+    {
+	  c->Wait();
+	  g_syscall_error->SetMsg((char*)"",NoError);
+	  g_machine->WriteIntRegister(2,0);
+    }
+      else 
+    {
+	  g_syscall_error->SetMsg(msg, InvalidConditionId);
+	  g_machine->WriteIntRegister(2,-1);
+    }
       break;
     }
+    
     case SC_COND_SIGNAL:{
       DEBUG('e', (char*)"Cond: CondSignal call\n");
       int32_t sid = g_machine->ReadIntRegister(4);
       Condition * c = (Condition *) g_object_ids->SearchObject(sid);
-      if (c && c->typeId == CONDITION_TYPE_ID) {
-	c->Signal();
-	g_syscall_error->SetMsg((char*)"",NoError);
-	g_machine->WriteIntRegister(2,0);
-      } else {
-	g_syscall_error->SetMsg(msg, InvalidConditionId);
-	g_machine->WriteIntRegister(2,-1);
-      }
+      if (c && c->typeId == CONDITION_TYPE_ID) 
+    {
+	  c->Signal();
+	  g_syscall_error->SetMsg((char*)"",NoError);
+	  g_machine->WriteIntRegister(2,0);
+    }
+      else
+    {
+	  g_syscall_error->SetMsg(msg, InvalidConditionId);
+	  g_machine->WriteIntRegister(2,-1);
+    }
       break;
     }
+    
     case SC_COND_BROADCAST:{
       DEBUG('e', (char*)"COND: Broadcast call\n");
 
       int32_t sid = g_machine->ReadIntRegister(4);
       Condition * c = (Condition *) g_object_ids->SearchObject(sid);
-      if (c && c->typeId == CONDITION_TYPE_ID) {
-	c->Broadcast();
-	g_syscall_error->SetMsg((char*)"",NoError);
-	g_machine->WriteIntRegister(2,0);
-      } else {
-	g_syscall_error->SetMsg(msg, InvalidConditionId);
-	g_machine->WriteIntRegister(2,-1);
-      }
+      if (c && c->typeId == CONDITION_TYPE_ID) 
+    {
+	  c->Broadcast();
+	  g_syscall_error->SetMsg((char*)"",NoError);
+	  g_machine->WriteIntRegister(2,0);
+    } 
+      else 
+    {
+	  g_syscall_error->SetMsg(msg, InvalidConditionId);
+	  g_machine->WriteIntRegister(2,-1);
+    }
+      break;
+    }
+    
+    case SC_MMAP:{
+      DEBUG('e', (char*)"MMAP\n");
+
+	  OpenFileId fid = g_machine->ReadIntRegister(4);
+      int size = g_machine->ReadIntRegister(5);
+      OpenFile *file = (OpenFile *)g_object_ids->SearchObject(fid);
+	  if (file && file->typeId == FILE_TYPE_ID)
+	{
+	  g_current_thread->GetProcessOwner()->addrspace->Mmap(file, size);	      	      
+	  g_machine->WriteIntRegister(2,0);
+	  g_syscall_error->SetMsg((char*)"",NoError);
+	}
+	  else
+	{ 
+      g_machine->WriteIntRegister(2,-1);
+      sprintf(msg,"%d",fid);
+      g_syscall_error->SetMsg(msg,InvalidFileId);
+	}
       break;
     }
 
