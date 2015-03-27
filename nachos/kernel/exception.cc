@@ -876,7 +876,7 @@ void ExceptionHandler(ExceptionType exceptiontype, int vaddr)
       OpenFile *file = (OpenFile *)g_object_ids->SearchObject(fid);
 	  if (file && file->typeId == FILE_TYPE_ID)
 	{
-	  g_current_thread->GetProcessOwner()->addrspace->Mmap(file, size);	      	      
+	  g_current_thread->GetProcessOwner()->addrspace->Mmap(file, size);
 	  g_machine->WriteIntRegister(2,0);
 	  g_syscall_error->SetMsg((char*)"",NoError);
 	}
